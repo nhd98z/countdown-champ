@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Clock from './Clock';
 import './App.css';
 import { Form, FormControl, Button } from 'react-bootstrap';
+import StopWatch from './Stopwatch';
 
 class App extends Component {
   constructor(props) {
@@ -12,7 +13,8 @@ class App extends Component {
     };
   }
 
-  changeDeadline() {
+  changeDeadline(event) {
+    event.preventDefault();
     this.setState({ deadline: this.state.newDeadline });
   }
 
@@ -22,26 +24,17 @@ class App extends Component {
         <div className="App-title">Countdown to {this.state.deadline}</div>
         <div>
           <Clock deadline={this.state.deadline} />
-          <Form inline>
+          <Form onSubmit={event => this.changeDeadline(event)} inline>
             <FormControl
-              className="Deadline-input"
-              placeholder="Enter date here"
-              // @ts-ignore
+              className="Deadline-input"              
               onChange={event => this.setState({ newDeadline: event.target.value })}
-              onKeyPress={event => {
-                if (event.key === 'Enter') {
-                  event.preventDefault();
-                  // @ts-ignore
-                  console.log('pressed enter with value', event.target.value);
-                  this.changeDeadline();
-                }
-              }}
+              placeholder="Enter date"
             />
-            <Button onClick={() => this.changeDeadline()}>Submit</Button>
+            <Button onClick={event => this.changeDeadline(event)}>Submit</Button>
           </Form>
         </div>
-
         <hr />
+        <StopWatch />
       </div>
     );
   }
