@@ -13,7 +13,6 @@ class App extends Component {
   }
 
   changeDeadline() {
-    console.log('state', this.state);
     this.setState({ deadline: this.state.newDeadline });
   }
 
@@ -26,7 +25,7 @@ class App extends Component {
           <Form inline>
             <FormControl
               className="Deadline-input"
-              placeholder="new date"
+              placeholder="Enter date here"
               // @ts-ignore
               onChange={event => this.setState({ newDeadline: event.target.value })}
               onKeyPress={event => {
@@ -41,6 +40,8 @@ class App extends Component {
             <Button onClick={() => this.changeDeadline()}>Submit</Button>
           </Form>
         </div>
+
+        <hr />
       </div>
     );
   }
