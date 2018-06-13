@@ -32,6 +32,15 @@ class StopWatch extends Component {
     }
   }
 
+  isNumeric(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+  }
+
+  handleChange(event) {
+    event.preventDefault();
+    if (this.isNumeric(event.target.value)) this.setState({ seconds: event.target.value });
+  }
+
   render() {
     return (
       <div>
@@ -43,7 +52,7 @@ class StopWatch extends Component {
             id="fcStopwatch"
             className="Deadline-input"
             placeholder="Enter timer"
-            onChange={event => this.setState({ seconds: event.target.value })}
+            onChange={event => this.handleChange(event)}
           />
           <Button id="btnStopwatch" onClick={event => this.startStopWatch(event)}>
             Submit
