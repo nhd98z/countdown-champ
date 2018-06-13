@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import { Form, FormControl, Button } from 'react-bootstrap';
 
-class StopWatch extends Component {
+class Stopwatch extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -11,15 +11,23 @@ class StopWatch extends Component {
     };
   }
 
-  startStopWatch(event) {
+  startStopwatch(event) {
     event.preventDefault();
-    clearInterval(this.state.interval);
     document.getElementById('fcStopwatch').value = '';
-    document.getElementById('btnStopwatch').disabled = true;
-    setTimeout(() => (document.getElementById('btnStopwatch').disabled = false), 1000 * this.state.seconds);
+    document.getElementById('btnStart').disabled = true;
+    document.getElementById('fcStopwatch').disabled = true;
     this.setState({
       interval: window.setInterval(() => this.countdown(this.state.seconds), 1000)
     });
+  }
+
+  stopStopwatch() {
+    this.setState({ seconds: 0 });
+    clearInterval(this.state.interval);
+    document.getElementById('btnStart').disabled = false;
+    document.getElementById('fcStopwatch').disabled = false;
+    console.log('All done!');
+    window.alert('All done!');
   }
 
   countdown(seconds) {
@@ -28,8 +36,7 @@ class StopWatch extends Component {
       this.setState({ seconds });
       console.log('this.state.seconds', this.state.seconds);
     } else {
-      console.log('All done');
-      clearInterval(this.state.interval);
+      this.stopStopwatch();
     }
   }
 
@@ -48,19 +55,23 @@ class StopWatch extends Component {
         <div className="App-title">
           Stopwatch: <span className="Stopwatch-number">{this.state.seconds}</span> seconds
         </div>
-        <Form onSubmit={event => this.startStopWatch(event)} inline>
+        <Form id="formStopwatch" onSubmit={event => this.startStopwatch(event)} inline>
           <FormControl
+            type="number"
             id="fcStopwatch"
             className="Deadline-input"
             placeholder="Enter timer"
             onChange={event => this.handleChange(event)}
           />
-          <Button id="btnStopwatch" onClick={event => this.startStopWatch(event)}>
-            Submit
+          <Button id="btnStart" onClick={event => this.startStopwatch(event)}>
+            Start
+          </Button>
+          <Button id="btnStop" onClick={event => this.stopStopwatch(event)}>
+            Stop
           </Button>
         </Form>
       </div>
     );
   }
 }
-export default StopWatch;
+export default Stopwatch;

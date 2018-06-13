@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Clock from './Clock';
 import './App.css';
 import { Form, FormControl, Button } from 'react-bootstrap';
-import StopWatch from './Stopwatch';
+import Stopwatch from './Stopwatch';
 
 class App extends Component {
   constructor(props) {
@@ -34,7 +34,7 @@ class App extends Component {
           </Form>
         </div>
         <hr />
-        <StopWatch />
+        <Stopwatch />
       </div>
     );
   }
