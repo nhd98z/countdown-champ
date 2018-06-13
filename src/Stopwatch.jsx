@@ -13,6 +13,7 @@ class StopWatch extends Component {
 
   startStopWatch(event) {
     event.preventDefault();
+    clearInterval(this.state.interval);
     document.getElementById('fcStopwatch').value = '';
     document.getElementById('btnStopwatch').disabled = true;
     setTimeout(() => (document.getElementById('btnStopwatch').disabled = false), 1000 * this.state.seconds);
