@@ -6,54 +6,57 @@ class Stopwatch extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      seconds: 0,
+      timeleft: 0,
+      newTimeleft: 0,
       interval: 0
     };
   }
 
-  startStopwatch(event) {
-    event.preventDefault();
+  setElementsWhenRunning() {
     document.getElementById('fcStopwatch').value = '';
     document.getElementById('btnStart').disabled = true;
     document.getElementById('fcStopwatch').disabled = true;
-    this.setState({
-      interval: window.setInterval(() => this.countdown(this.state.seconds), 1000)
-    });
   }
 
-  stopStopwatch() {
-    this.setState({ seconds: 0 });
+  initElements() {
+    this.setState({ timeleft: 0 });
     clearInterval(this.state.interval);
     document.getElementById('btnStart').disabled = false;
     document.getElementById('fcStopwatch').disabled = false;
-    console.log('All done!');
-    window.alert('All done!');
   }
 
-  countdown(seconds) {
-    if (seconds > 0) {
-      seconds--;
-      this.setState({ seconds });
-      console.log('this.state.seconds', this.state.seconds);
-    } else {
-      this.stopStopwatch();
+  startStopwatch(event) {
+    event.preventDefault();
+    this.setElementsWhenRunning();
+    this.setState({
+      timeleft: this.state.newTimeleft,
+      interval: window.setInterval(() => this.countdown(this.state.timeleft), 1000)
+    });
+  }
+
+  stopStopwatch(isClickBtnStop) {
+    this.initElements();
+    if (!isClickBtnStop) {
+      console.log('All done!');
+      window.alert('All done!');
     }
   }
 
-  isNumeric(n) {
-    return !isNaN(parseFloat(n)) && isFinite(n);
-  }
-
-  handleChange(event) {
-    event.preventDefault();
-    if (this.isNumeric(event.target.value)) this.setState({ seconds: event.target.value });
+  countdown(timeleft) {
+    if (timeleft > 0) {
+      timeleft--;
+      this.setState({ timeleft });
+      console.log('this.state.timeleft', this.state.timeleft);
+    } else {
+      this.stopStopwatch(false);
+    }
   }
 
   render() {
     return (
       <div>
         <div className="App-title">
-          Stopwatch: <span className="Stopwatch-number">{this.state.seconds}</span> seconds
+          Stopwatch: <span className="Stopwatch-number">{this.state.timeleft}</span> timeleft
         </div>
         <Form id="formStopwatch" onSubmit={event => this.startStopwatch(event)} inline>
           <FormControl
@@ -61,12 +64,12 @@ class Stopwatch extends Component {
             id="fcStopwatch"
             className="Deadline-input"
             placeholder="Enter timer"
-            onChange={event => this.handleChange(event)}
+            onChange={event => this.setState({ newTimeleft: event.target.value })}
           />
           <Button id="btnStart" onClick={event => this.startStopwatch(event)}>
             Start
           </Button>
-          <Button id="btnStop" onClick={event => this.stopStopwatch(event)}>
+          <Button id="btnStop" onClick={event => this.stopStopwatch(true)}>
             Stop
           </Button>
         </Form>
